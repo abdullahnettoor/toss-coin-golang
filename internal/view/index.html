@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coin Toss</title>
+  <style>
+    a {
+      text-decoration:  none;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(to right, #8ac8f1, #159483);
+      color: #fff;
+    }
+
+    #coin {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: #ffffff;
+      display: block;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    #coin img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="coin" onclick="tossCoin()">
+    <img id="coinImg" src="https://lenadesignorg.files.wordpress.com/2020/06/head.png?w=100" alt="coin">
+  </div>
+    <h1 id="result">Click the coin to toss!</h1>
+
+  <script>
+    function tossCoin() {
+      const resultElement = document.getElementById('result');
+      const coinImg = document.getElementById('coinImg');
+  
+      fetch("/toss-coin")
+        .then(response => response.json())
+        .then(data => {
+          const side = data.res ? 'Heads' : 'Tails';
+  
+          document.getElementById('coin').style.transform = 'rotateX(360deg)';
+  
+          setTimeout(() => {
+            if (data.res) {
+              coinImg.src = `https://lenadesignorg.files.wordpress.com/2020/06/head.png?w=100`;
+            } else {
+              coinImg.src = `https://lenadesignorg.files.wordpress.com/2020/06/tail.png?w=100`;
+            }
+            resultElement.textContent = `${side}`;
+            document.getElementById('coin').style.transform = 'rotateX(0deg)';
+          }, 500);
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+  
+</body>
+</html>
