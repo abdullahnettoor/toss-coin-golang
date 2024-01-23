@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/abdullahnettoor/toss-coin-golang/internal/handlers"
 	"github.com/gin-gonic/gin"
 )
@@ -15,5 +17,6 @@ func main() {
 
 	r.GET("/toss-coin", handlers.TossCoin)
 
+	fmt.Println("Server Started on port 3333")
 	r.Run(":3333")
 }
